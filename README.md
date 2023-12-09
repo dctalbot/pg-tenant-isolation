@@ -4,9 +4,15 @@
 
 Requirements:
 
-- Python 3.7+
+- Python 3.9.13
+- Docker 24.0.6
 
 ```
-make deps
-make start
+make deps  # install python dependencies
+make pg    # start postgres server in docker container
+make start # start web server
+```
+
+```
+make clean
 ```
