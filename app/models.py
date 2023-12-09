@@ -18,7 +18,6 @@ class Item(Base):
 
     id = Column(UUID, primary_key=True, index=True)
     title = Column(String, nullable=False)
-    description = Column(String, nullable=False)
     tenant_id = Column(UUID, ForeignKey("tenants.id"), nullable=False)
 
     tenant = relationship("Tenant", back_populates="items")
