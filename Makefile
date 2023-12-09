@@ -6,7 +6,7 @@ deps:
 
 .PHONY: pg
 pg:
-	docker run --rm --name pg-tenant-isolation-demo -e POSTGRES_PASSWORD=postgres -d postgres
+	docker run --rm --name pg-tenant-isolation-demo -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 -v ./init.sql:/docker-entrypoint-initdb.d/init.sql postgres
 
 .PHONY: start
 start:
@@ -21,4 +21,3 @@ clean:
 lint:
 	. .venv/bin/activate; ruff . --fix
 	. .venv/bin/activate; ruff format .
-
