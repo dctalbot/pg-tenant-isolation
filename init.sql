@@ -1,3 +1,23 @@
+--------------------------------------------
+-- PROVISIONING
+--------------------------------------------
+CREATE USER web_app_user PASSWORD 'postgres';
+
+-- use conservative default privileges
+REVOKE CREATE ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON DATABASE postgres FROM PUBLIC;
+
+-- selectively grant privileges for the application user
+-- basically, the app user can read and write data values, but it cannot alter the schema
+GRANT CONNECT ON DATABASE postgres TO web_app_user;
+GRANT USAGE ON SCHEMA public TO web_app_user;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO web_app_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO web_app_user;
+
+
+--------------------------------------------
+-- SCHEMA MIGRATIONS
+--------------------------------------------
 CREATE TABLE IF NOT EXISTS tenants (
     id UUID PRIMARY KEY,
     name TEXT NOT NULL UNIQUE
@@ -9,6 +29,23 @@ CREATE TABLE IF NOT EXISTS items (
     tenant_id UUID NOT NULL REFERENCES tenants(id)
 );
 
+
+ALTER TABLE tenants ENABLE ROW LEVEL SECURITY;
+CREATE POLICY tenant_isolation_policy ON tenants
+FOR ALL
+TO PUBLIC
+USING (current_setting('app.current_tenant_id')::UUID = id);
+
+ALTER TABLE items ENABLE ROW LEVEL SECURITY;
+CREATE POLICY tenant_isolation_policy ON items
+FOR ALL
+TO PUBLIC
+USING (current_setting('app.current_tenant_id')::UUID = tenant_id);
+
+
+--------------------------------------------
+-- SEED DATA
+--------------------------------------------
 INSERT INTO tenants (id, name) VALUES 
 ('7a245486-3fc8-47ec-b303-04fefe7a58ff', 'pawnee-parks-and-rec'),
 ('162be16f-f76d-431a-a213-171838ded9ae', 'dunder-mifflin'),
