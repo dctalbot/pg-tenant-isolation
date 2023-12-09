@@ -7,10 +7,22 @@ Requirements:
 - Python 3.9.13
 - Docker 24.0.6
 
+1. Install python dependencies
+
 ```
-make deps  # install python dependencies
-make pg    # start postgres server in docker container
-make start # start web server
+make venv
+```
+
+2. Start postgres server in docker container with seed data
+
+```
+make pg
+```
+
+3. Start the web server
+
+```
+make start
 ```
 
 ```
