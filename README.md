@@ -1,8 +1,21 @@
-# Multi-tenant data isolation in PostgreSQL with SQLAlchemy
+# Multi-tenant data isolation in PostgreSQL
 
-This repo demonstrates a postgres-native approach to tenant isolation in a basic multi-tenant web app. Python, [Starlette](https://www.starlette.io/), and [SQLAlchemy](https://www.sqlalchemy.org/) are used here, but the technique could be applied to any comparable alternatives.
+This repo demonstrates a postgres-native approach to tenant isolation in a basic multi-tenant web app. Python, [Starlette](https://www.starlette.io/), and [SQLAlchemy](https://www.sqlalchemy.org/) are used here, but the technique can be implemented with comparable alternatives.
 
-# Getting Started
+With this technique, developers can write queries like `select * from items;` or `db.query(Item).all()` and have the result set automatically filtered to only include data belonging to a given tenant. The tenant is identified by a required runtime configuration parameter on the database session. The value of this parameter is typically sourced from an auth token in the initial client request.
+
+```mermaid
+sequenceDiagram
+    participant client
+    participant server
+    participant postgres
+    client->>+server:GET /items <br> {tenant_id#58; foo}
+    server->>+postgres:set tenant_id = foo#59; select * from items#59;
+    postgres->>-server: Data for tenant foo
+    server->>-client: API response
+```
+
+## Getting Started
 
 This project is lightweight and should not be a hassle to set up or tear down for most developers.
 
@@ -25,7 +38,7 @@ python --version
 make venv
 ```
 
-3. Make sure Docker is running, and run the following command to start a local Postgres server with some [seed data](./init.sql). If you already have a process running on port 5432, you will need to stop that process first.
+3. Make sure Docker is running, and run the following command to start a local Postgres server. The [init.sql](./init.sql) script will run automatically, configuring the row security policies and inserting seed data. If you already have a process running on port 5432, you will need to stop that process first.
 
 ```
 make pg
