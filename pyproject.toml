@@ -1,0 +1,27 @@
+
+[tool.ruff]
+
+select = [
+  "E",   # Pycodestyle
+  "F",   # Pyflakes
+  "I",   # isort
+  "UP",  # pyupgrade
+  "TRY", # tryceratops - https://beta.ruff.rs/docs/rules/#tryceratops-try
+  # https://beta.ruff.rs/docs/rules/#flake8-comprehensions-c4
+  # https://beta.ruff.rs/docs/rules/#mccabe-c90
+  "C", # Complexity (mccabe+) & comprehensions
+  # https://beta.ruff.rs/docs/rules/#flake8-type-checking-tch
+  "TCH", # flake8-type-checking-tch
+  # https://beta.ruff.rs/docs/rules/#flake8-tidy-imports-tid
+  "TID", # flake8-tidy-imports
+  # https://beta.ruff.rs/docs/rules/#flake8-pyi-pyi
+  "PYI", # flake8-pyi - type stub files
+  # https://beta.ruff.rs/docs/rules/#flake8-use-pathlib-pth
+  "PTH", # use-pathlib - use pathlib for os.path and glob operations
+  # https://beta.ruff.rs/docs/rules/#flake8-bugbear-b
+  "B", # bugbear - common python bugs & design issues
+  # https://beta.ruff.rs/docs/rules/#pylint-pl
+  "PL", # pylint
+]
+
+target-version = "py39"
