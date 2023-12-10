@@ -10,7 +10,6 @@ pg:
 
 .PHONY: start
 start:
-#	. .venv/bin/activate; uvicorn main:app --reload
 	. .venv/bin/activate; uvicorn app.main:app --reload
 
 .PHONY: clean

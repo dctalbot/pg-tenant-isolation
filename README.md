@@ -1,36 +1,54 @@
-# Multi-tenant data isolation with PostgreSQL and SQLAlchemy
+# Multi-tenant data isolation in PostgreSQL with SQLAlchemy
+
+This repo demonstrates a postgres-native approach to tenant isolation in a basic multi-tenant web app. Python, [Starlette](https://www.starlette.io/), and [SQLAlchemy](https://www.sqlalchemy.org/) are used here, but the implementation could serve as inspiration for any comparable alternatives.
 
 # Getting Started
 
+This project is lightweight and should not be a hassle to set up or tear down for most developers.
+
 Requirements:
 
-- Python 3.9.13
-- Docker 24.0.6
+- Python 3.9 +
+- Docker 24 +
 
-1. Install python dependencies
+Run the following `make` targets, or run the commands in the [Makefile](./Makefile) manually.
+
+1. Ensure `python` is at least the version specified above.
+
+```
+python --version
+```
+
+2. Install Python dependencies in a [virtual environment](https://docs.python.org/3/library/venv.html)
 
 ```
 make venv
 ```
 
-2. Start postgres server in docker container with seed data
+3. Make sure Docker is running, and then run the following command to start a local Postgres server with some [seed data](./init.sql). If you already have a process running on port 5432, you will need to stop that process first.
 
 ```
 make pg
 ```
 
-3. Start the web server
+4. Start the web server
 
 ```
 make start
 ```
 
-```
-make clean
-```
+At this point you should be able to make some web requests. I'm using `curl` and `jq`, but you can use the web client of your choice e.g. [Insomnia](https://github.com/Kong/insomnia).
+
+The options for `X-tenant-id` are:
+
+- `7a245486-3fc8-47ec-b303-04fefe7a58ff`
+- `162be16f-f76d-431a-a213-171838ded9ae`
+- `ebdba44d-ad48-4e73-9bd5-339e3c3fc590`
 
 ```console
 curl --header "X-tenant-id: 7a245486-3fc8-47ec-b303-04fefe7a58ff" http://127.0.0.1:8000/items/ | jq
+
+
 [
   {
     "id": "997d0bee-351f-4b09-9dd3-2289da1ce0ba",
@@ -58,4 +76,10 @@ curl --header "X-tenant-id: 7a245486-3fc8-47ec-b303-04fefe7a58ff" http://127.0.0
     "tenant_id": "7a245486-3fc8-47ec-b303-04fefe7a58ff"
   }
 ]
+```
+
+When you're done, you can clean up the resources with the following command:
+
+```
+make clean
 ```
