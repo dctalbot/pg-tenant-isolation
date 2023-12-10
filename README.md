@@ -1,6 +1,6 @@
 # Multi-tenant data isolation in PostgreSQL with SQLAlchemy
 
-This repo demonstrates a postgres-native approach to tenant isolation in a basic multi-tenant web app. Python, [Starlette](https://www.starlette.io/), and [SQLAlchemy](https://www.sqlalchemy.org/) are used here, but the implementation could serve as inspiration for any comparable alternatives.
+This repo demonstrates a postgres-native approach to tenant isolation in a basic multi-tenant web app. Python, [Starlette](https://www.starlette.io/), and [SQLAlchemy](https://www.sqlalchemy.org/) are used here, but the technique could be applied to any comparable alternatives.
 
 # Getting Started
 
