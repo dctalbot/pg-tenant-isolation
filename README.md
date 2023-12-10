@@ -83,7 +83,7 @@ curl --header "X-tenant-id: 7a245486-3fc8-47ec-b303-04fefe7a58ff" http://127.0.0
 This results in the following SQL query:
 
 ```sql
-SET app.current_tenant_id = '7a245486-3fc8-47ec-b303-04fefe7a58ff'; SELECT items.id, items.title, items.tenant_id FROM items;
+SET app.current_tenant_id = '7a245486-3fc8-47ec-b303-04fefe7a58ff'; SELECT id, title, tenant_id FROM items;
 ```
 
 ### Example 2: List all Tenants
@@ -130,8 +130,8 @@ curl --header "X-tenant-id: 7a245486-3fc8-47ec-b303-04fefe7a58ff" http://127.0.0
 This results in the following SQL queries:
 
 ```sql
-SET app.current_tenant_id = '7a245486-3fc8-47ec-b303-04fefe7a58ff'; SELECT tenants.id, tenants.name FROM tenants;
-SET app.current_tenant_id = '7a245486-3fc8-47ec-b303-04fefe7a58ff'; SELECT items.id, items.title, items.tenant_id FROM items WHERE items.tenant_id = '7a245486-3fc8-47ec-b303-04fefe7a58ff';
+SET app.current_tenant_id = '7a245486-3fc8-47ec-b303-04fefe7a58ff'; SELECT id, name FROM tenants;
+SET app.current_tenant_id = '7a245486-3fc8-47ec-b303-04fefe7a58ff'; SELECT id, title, tenant_id FROM items WHERE tenant_id = '7a245486-3fc8-47ec-b303-04fefe7a58ff';
 ```
 
 ## Tear down
