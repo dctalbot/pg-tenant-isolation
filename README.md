@@ -25,7 +25,7 @@ python --version
 make venv
 ```
 
-3. Make sure Docker is running, and then run the following command to start a local Postgres server with some [seed data](./init.sql). If you already have a process running on port 5432, you will need to stop that process first.
+3. Make sure Docker is running, and run the following command to start a local Postgres server with some [seed data](./init.sql). If you already have a process running on port 5432, you will need to stop that process first.
 
 ```
 make pg
@@ -37,7 +37,7 @@ make pg
 make start
 ```
 
-At this point you should be able to make some web requests. I'm using `curl` and `jq`, but you can use the web client of your choice e.g. [Insomnia](https://github.com/Kong/insomnia).
+At this point, you can make some web requests. I'm using `curl` and `jq`, but you can use the web client of your choice.
 
 The options for `X-tenant-id` are:
 
@@ -49,8 +49,17 @@ The options for `X-tenant-id` are:
 
 ```console
 curl --header "X-tenant-id: 7a245486-3fc8-47ec-b303-04fefe7a58ff" http://127.0.0.1:8000/items/ | jq
+```
 
+This results in the following query:
 
+```sql
+SET app.current_tenant_id = '7a245486-3fc8-47ec-b303-04fefe7a58ff'; SELECT * FROM items;
+```
+
+The row security policy on the `items` table filters out rows which do not belong to `app.current_tenant_id`. Thus, we receive only the following items in the API response:
+
+```json
 [
   {
     "id": "997d0bee-351f-4b09-9dd3-2289da1ce0ba",
@@ -80,18 +89,21 @@ curl --header "X-tenant-id: 7a245486-3fc8-47ec-b303-04fefe7a58ff" http://127.0.0
 ]
 ```
 
-This results in the following SQL query:
-
-```sql
-SET app.current_tenant_id = '7a245486-3fc8-47ec-b303-04fefe7a58ff'; SELECT id, title, tenant_id FROM items;
-```
-
 ### Example 2: List all Tenants
 
 ```console
 curl --header "X-tenant-id: 7a245486-3fc8-47ec-b303-04fefe7a58ff" http://127.0.0.1:8000/tenants/ | jq
+```
 
+This results in the following query:
 
+```sql
+SET app.current_tenant_id = '7a245486-3fc8-47ec-b303-04fefe7a58ff'; SELECT tenants.*, items.* FROM tenants LEFT OUTER JOIN items ON tenants.id = items.tenant_id;
+```
+
+The row security policies on the `items` and `tenants` tables filter out rows which do not belong to `app.current_tenant_id`. Thus, we receive only the following items in the API response:
+
+```json
 [
   {
     "id": "7a245486-3fc8-47ec-b303-04fefe7a58ff",
@@ -125,13 +137,6 @@ curl --header "X-tenant-id: 7a245486-3fc8-47ec-b303-04fefe7a58ff" http://127.0.0
     ]
   }
 ]
-```
-
-This results in the following SQL queries:
-
-```sql
-SET app.current_tenant_id = '7a245486-3fc8-47ec-b303-04fefe7a58ff'; SELECT id, name FROM tenants;
-SET app.current_tenant_id = '7a245486-3fc8-47ec-b303-04fefe7a58ff'; SELECT id, title, tenant_id FROM items WHERE tenant_id = '7a245486-3fc8-47ec-b303-04fefe7a58ff';
 ```
 
 ## Tear down

@@ -1,6 +1,5 @@
 from fastapi import Depends, FastAPI
 
-
 from . import schemas, store
 from .db import db, get_session
 from .middleware import middleware

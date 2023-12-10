@@ -1,9 +1,9 @@
 from typing import Any, Optional, Union
 
-from starlette.requests import HTTPConnection, Request
-from starlette_context.plugins import Plugin
 from starlette.middleware import Middleware
+from starlette.requests import HTTPConnection, Request
 from starlette_context.middleware import RawContextMiddleware
+from starlette_context.plugins import Plugin
 
 
 class TenantIdPlugin(Plugin):
@@ -13,7 +13,7 @@ class TenantIdPlugin(Plugin):
         self, request: Union[Request, HTTPConnection]
     ) -> Optional[Any]:
         # Get the tenant ID from the HTTP request.
-        # TODO source this value securely from an authorization token, not a public HTTP header :)
+        # TODO get this value securely from an auth token, not a public HTTP header :)
         return request.headers.get("X-tenant-id")
 
 

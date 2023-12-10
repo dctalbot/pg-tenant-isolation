@@ -10,7 +10,7 @@ class Tenant(db.Base):
     id = Column(UUID, primary_key=True)
     name = Column(String, nullable=False, unique=True)
 
-    items = relationship("Item", back_populates="tenant")
+    items = relationship("Item", back_populates="tenant", lazy="joined")
 
 
 class Item(db.Base):
