@@ -2,6 +2,7 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
+
 class Item(BaseModel):
     id: UUID
     title: str
@@ -10,7 +11,8 @@ class Item(BaseModel):
     class Config:
         orm_mode = True
 
-class TenantBase(BaseModel):
+
+class Tenant(BaseModel):
     id: UUID
     name: str
     items: list[Item] = []

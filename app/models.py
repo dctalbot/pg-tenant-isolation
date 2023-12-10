@@ -1,10 +1,10 @@
-from sqlalchemy import Column, ForeignKey, String, UUID
+from sqlalchemy import UUID, Column, ForeignKey, String
 from sqlalchemy.orm import relationship
 
-from .db import Base
+from .db import db
 
 
-class Tenant(Base):
+class Tenant(db.Base):
     __tablename__ = "tenants"
 
     id = Column(UUID, primary_key=True)
@@ -13,7 +13,7 @@ class Tenant(Base):
     items = relationship("Item", back_populates="tenant")
 
 
-class Item(Base):
+class Item(db.Base):
     __tablename__ = "items"
 
     id = Column(UUID, primary_key=True, index=True)
