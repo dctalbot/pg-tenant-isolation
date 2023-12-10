@@ -9,7 +9,7 @@ class Item(BaseModel):
     tenant_id: UUID
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Tenant(BaseModel):
@@ -18,4 +18,4 @@ class Tenant(BaseModel):
     items: list[Item] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True

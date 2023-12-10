@@ -5,8 +5,11 @@ from . import schemas, store
 from .db import db, get_session
 from .middleware import middleware
 
+# stand up the web server
+# the middleware attaches the tenant ID to the request context
+app = FastAPI(middleware=middleware)
 
-app = FastAPI(debug=True, middleware=middleware)
+# initialize the sqlalchemy integration
 db.init_app(app)
 
 

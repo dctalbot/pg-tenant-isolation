@@ -12,7 +12,7 @@ class TenantIdPlugin(Plugin):
     async def process_request(
         self, request: Union[Request, HTTPConnection]
     ) -> Optional[Any]:
-        # Get the tenant ID from the request context.
+        # Get the tenant ID from the HTTP request.
         # TODO source this value securely from an authorization token, not a public HTTP header :)
         return request.headers.get("X-tenant-id")
 

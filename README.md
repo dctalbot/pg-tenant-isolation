@@ -78,6 +78,12 @@ curl --header "X-tenant-id: 7a245486-3fc8-47ec-b303-04fefe7a58ff" http://127.0.0
 ]
 ```
 
+This results in the following SQL query:
+
+```sql
+SET app.current_tenant_id = '7a245486-3fc8-47ec-b303-04fefe7a58ff'; SELECT items.id, items.title, items.tenant_id FROM items;
+```
+
 When you're done, you can clean up the resources with the following command:
 
 ```

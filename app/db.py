@@ -30,7 +30,7 @@ class FastAPISQLAlchemyDB:
     """
 
     def __init__(self) -> None:
-        self.engine = create_engine(DATABASE_URL)
+        self.engine = create_engine(DATABASE_URL, echo=True)
         self.Base = declarative_base(metadata=sa.MetaData())
         self.session = scoped_session(
             sessionmaker(autocommit=False, autoflush=False, bind=self.engine)
@@ -40,7 +40,7 @@ class FastAPISQLAlchemyDB:
 
     def init_app(self, app: FastAPI) -> None:
         """
-        Establish the intergation points between Flask and SQLAlchemy.
+        Establish the intergation points between FastAPI and SQLAlchemy.
         """
 
         @event.listens_for(self.engine, "before_cursor_execute", retval=True)
@@ -78,7 +78,6 @@ db = FastAPISQLAlchemyDB()
 
 
 def get_session():
-    yield db.Base.session
     try:
         yield db.Base.session
     finally:
