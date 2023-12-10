@@ -1,22 +1,10 @@
 from fastapi import Depends, FastAPI
-from starlette.middleware import Middleware
-from starlette_context import plugins
-from starlette_context.middleware import RawContextMiddleware
+
 
 from . import schemas, store
 from .db import db, get_session
-from .middleware import TenantIdPlugin
+from .middleware import middleware
 
-middleware = [
-    Middleware(
-        RawContextMiddleware,
-        plugins=(
-            plugins.RequestIdPlugin(),
-            plugins.CorrelationIdPlugin(),
-            TenantIdPlugin(),
-        ),
-    )
-]
 
 app = FastAPI(debug=True, middleware=middleware)
 db.init_app(app)
