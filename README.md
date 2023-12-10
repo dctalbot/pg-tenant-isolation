@@ -45,6 +45,8 @@ The options for `X-tenant-id` are:
 - `162be16f-f76d-431a-a213-171838ded9ae`
 - `ebdba44d-ad48-4e73-9bd5-339e3c3fc590`
 
+### Example 1: List all Items
+
 ```console
 curl --header "X-tenant-id: 7a245486-3fc8-47ec-b303-04fefe7a58ff" http://127.0.0.1:8000/items/ | jq
 
@@ -84,7 +86,9 @@ This results in the following SQL query:
 SET app.current_tenant_id = '7a245486-3fc8-47ec-b303-04fefe7a58ff'; SELECT items.id, items.title, items.tenant_id FROM items;
 ```
 
-```
+### Example 2: List all Tenants
+
+```console
 curl --header "X-tenant-id: 7a245486-3fc8-47ec-b303-04fefe7a58ff" http://127.0.0.1:8000/tenants/ | jq
 
 
