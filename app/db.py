@@ -19,7 +19,7 @@ if TYPE_CHECKING:
     from sqlalchemy.future import Connection
 
 
-DATABASE_URL = "postgresql://web_app_user:postgres@localhost/postgres"
+DATABASE_URL = "postgresql://db_user:postgres@localhost/postgres"
 
 
 class FastAPISQLAlchemyDB:

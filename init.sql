@@ -1,7 +1,7 @@
 --------------------------------------------
 -- PROVISIONING
 --------------------------------------------
-CREATE USER web_app_user PASSWORD 'postgres';
+CREATE USER db_user PASSWORD 'postgres';
 
 -- use conservative default privileges
 REVOKE CREATE ON SCHEMA public FROM PUBLIC;
@@ -9,10 +9,10 @@ REVOKE ALL ON DATABASE postgres FROM PUBLIC;
 
 -- selectively grant privileges for the application user
 -- basically, the app user can read and write data values, but it cannot alter the schema
-GRANT CONNECT ON DATABASE postgres TO web_app_user;
-GRANT USAGE ON SCHEMA public TO web_app_user;
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO web_app_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO web_app_user;
+GRANT CONNECT ON DATABASE postgres TO db_user;
+GRANT USAGE ON SCHEMA public TO db_user;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO db_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO db_user;
 
 
 --------------------------------------------
