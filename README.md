@@ -1,5 +1,7 @@
 # Multi-tenant data isolation in PostgreSQL
 
+Blog post: https://dctalbot.nyc/blog/pg-tenant-isolation/
+
 This repo demonstrates a postgres-native approach to tenant isolation in a basic multi-tenant web app. Python, [Starlette](https://www.starlette.io/), and [SQLAlchemy](https://www.sqlalchemy.org/) are used here, but the technique can be implemented with comparable alternatives.
 
 With this technique, developers can write SQL queries and have the result set automatically filtered to only include data belonging to a given tenant. The tenant is identified by a required runtime configuration parameter on the database session. The value of this parameter is typically sourced from an auth token in the initial client request.
