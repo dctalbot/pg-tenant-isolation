@@ -20,7 +20,7 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE O
 --------------------------------------------
 CREATE TABLE IF NOT EXISTS tenants (
     id UUID PRIMARY KEY,
-    name TEXT NOT NULL UNIQUE
+    name TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS items (
@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS items (
     tenant_id UUID NOT NULL REFERENCES tenants(id)
 );
 
+CREATE UNIQUE INDEX items_unique_title ON items (tenant_id, title);
 
 ALTER TABLE tenants ENABLE ROW LEVEL SECURITY;
 CREATE POLICY tenant_isolation_policy ON tenants
